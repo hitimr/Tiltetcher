@@ -1,8 +1,7 @@
 #include "project.h"
 #include "timer.h"
-#include <thermal_sensor.h>
+#include "thermal_sensor.h"
 
-#define BLOCKING_TIME_MS 10000L
 
 void setup()
 {

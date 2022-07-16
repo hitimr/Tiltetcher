@@ -1,5 +1,9 @@
 #pragma once
 #include "project.h"
+#include "GPIO.h"
+
+#define TEMP_CUTOFF_HIGH 45
+#define TEMP_CUTOFF_LOW 42
 
 void init_heater()
 {

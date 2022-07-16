@@ -43,7 +43,7 @@ need to be disabled or the entire sequence of your code which accesses the data.
      defined(ARDUINO_AVR_PROTRINKET3) || defined(ARDUINO_AVR_PROTRINKET5FTDI) ||                   \
      defined(ARDUINO_AVR_PROTRINKET3FTDI))
 #define USE_TIMER_1 true
-#warning Using Timer1
+//#warning Using Timer1
 #else
 #define USE_TIMER_3 true
 #warning Using Timer3
@@ -52,13 +52,7 @@ need to be disabled or the entire sequence of your code which accesses the data.
 #include "ISR_Timer_Generic.h"
 #include "TimerInterrupt_Generic.h"
 
-#ifndef LED_BUILTIN
-#define LED_BUILTIN 13
-#endif
-
 ISR_Timer ISR_timer;
-
-#define LED_TOGGLE_INTERVAL_MS 1000L
 
 // You have to use longer time here if having problem because Arduino AVR clock is low, 16MHz =>
 // lower accuracy. Tested OK with 1ms when not much load => higher accuracy.
@@ -68,20 +62,7 @@ volatile uint32_t startMillis = 0;
 
 void TimerHandler()
 {
-  static bool toggle = false;
-  static int timeRun = 0;
-
   ISR_timer.run();
-
-  // Toggle LED every LED_TOGGLE_INTERVAL_MS = 2000ms = 2s
-  if (++timeRun == ((LED_TOGGLE_INTERVAL_MS) / TIMER_INTERVAL_MS))
-  {
-    timeRun = 0;
-
-    // timer interrupt toggles pin LED_BUILTIN
-    digitalWrite(LED_BUILTIN, toggle);
-    toggle = !toggle;
-  }
 }
 
 /////////////////////////////////////////////////
@@ -150,10 +131,7 @@ void doingSomething3() { doingSomething(3); }
 
 void doingSomething4() { doingSomething(4); }
 
-void doingSomething5()
-{
-  doingSomething(5);
-}
+void doingSomething5() { doingSomething(5); }
 
 void doingSomething6() { doingSomething(6); }
 
