@@ -89,7 +89,7 @@ typedef void (*irqCallback)(void);
 
 /////////////////////////////////////////////////
 
-#define USE_COMPLEX_STRUCT true
+#define USE_COMPLEX_STRUCT false
 
 #if USE_COMPLEX_STRUCT
 
@@ -137,7 +137,7 @@ void doingSomething0() { doingSomething(0); }
 
 void doingSomething1() { doingSomething(1); }
 
-void doingSomething2() { doingSomething(2); }
+void doingSomething2() { doingSomething(2); Serial.println("doingSomething2"); }
 
 void doingSomething3() { doingSomething(3); }
 
@@ -235,9 +235,9 @@ void init_timer()
 
 #endif
 
-  // ISR_timer.setInterval(2000L, doingSomething2s);
-  // ISR_timer.setInterval(5000L, doingSomething5s);
-
+  ISR_timer.setInterval(2000L, doingSomething2);
+  ISR_timer.setInterval(5000L, doingSomething5);
+  /*
   // Just to demonstrate, don't use too many ISR Timers if not absolutely necessary
   // You can use up to 16 timer for each ISR_Timer
   for (uint16_t i = 0; i < NUMBER_ISR_TIMERS; i++)
@@ -250,6 +250,7 @@ void init_timer()
     ISR_timer.setInterval(TimerInterval[i], irqCallbackFunc[i]);
 #endif
   }
+  */
 
   // You need this timer for non-critical tasks. Avoid abusing ISR if not absolutely necessary.
 }
