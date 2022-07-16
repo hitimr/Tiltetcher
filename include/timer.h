@@ -237,7 +237,6 @@ void init_timer()
 
   ISR_timer.setInterval(2000L, doingSomething2);
   ISR_timer.setInterval(5000L, doingSomething5);
-  /*
   // Just to demonstrate, don't use too many ISR Timers if not absolutely necessary
   // You can use up to 16 timer for each ISR_Timer
   for (uint16_t i = 0; i < NUMBER_ISR_TIMERS; i++)
@@ -250,7 +249,4 @@ void init_timer()
     ISR_timer.setInterval(TimerInterval[i], irqCallbackFunc[i]);
 #endif
   }
-  */
-
-  // You need this timer for non-critical tasks. Avoid abusing ISR if not absolutely necessary.
 }
