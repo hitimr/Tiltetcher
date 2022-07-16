@@ -27,6 +27,9 @@ need to be disabled or the entire sequence of your code which accesses the data.
 // _TIMERINTERRUPT_LOGLEVEL_ from 0 to 4
 // Don't define _TIMERINTERRUPT_LOGLEVEL_ > 0. Only for special ISR debugging only. Can hang the
 // system.
+
+#include "thermal_sensor.h"
+
 #define TIMER_INTERRUPT_DEBUG 0
 #define _TIMERINTERRUPT_LOGLEVEL_ 0
 
@@ -137,13 +140,20 @@ void doingSomething0() { doingSomething(0); }
 
 void doingSomething1() { doingSomething(1); }
 
-void doingSomething2() { doingSomething(2); Serial.println("doingSomething2"); }
+void doingSomething2()
+{
+  thermal_sensor.read();
+  doingSomething(2);
+}
 
 void doingSomething3() { doingSomething(3); }
 
 void doingSomething4() { doingSomething(4); }
 
-void doingSomething5() { doingSomething(5); }
+void doingSomething5()
+{
+  doingSomething(5);
+}
 
 void doingSomething6() { doingSomething(6); }
 
@@ -201,7 +211,6 @@ irqCallback irqCallbackFunc[NUMBER_ISR_TIMERS] = {
 void init_timer()
 {
 
-
   // Timer0 is used for micros(), millis(), delay(), etc and can't be used
   // Select Timer 1-2 for UNO, 1-5 for MEGA, 1,3,4 for 16u4/32u4
   // Timer 2 is 8-bit timer, only for higher frequency
@@ -235,8 +244,8 @@ void init_timer()
 
 #endif
 
-  ISR_timer.setInterval(2000L, doingSomething2);
-  ISR_timer.setInterval(5000L, doingSomething5);
+  ISR_timer.setInterval(25L, doingSomething2);
+  ISR_timer.setInterval(500L, doingSomething5);
   // Just to demonstrate, don't use too many ISR Timers if not absolutely necessary
   // You can use up to 16 timer for each ISR_Timer
   for (uint16_t i = 0; i < NUMBER_ISR_TIMERS; i++)
