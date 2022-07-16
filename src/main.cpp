@@ -25,7 +25,7 @@ void loop()
 {
   // This unadvised blocking task is used to demonstrate the blocking effects onto the execution and
   // accuracy to Software timer You see the time elapse of ISR_Timer still accurate, whereas very
-  // unaccurate for Software Timer The time elapse for 2000ms software timer now becomes 3000ms
+  // inaccurate for Software Timer The time elapse for 2000ms software timer now becomes 3000ms
   // (BLOCKING_TIME_MS) While that of ISR_Timer is still prefect.
   delay(BLOCKING_TIME_MS);
 
