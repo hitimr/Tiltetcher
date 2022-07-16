@@ -1,3 +1,4 @@
+#include "project.h"
 #include "timer.h"
 #include <thermal_sensor.h>
 
@@ -8,18 +9,11 @@ void setup()
   init_timer();	
   pinMode(LED_BUILTIN, OUTPUT);
 
-  Serial.begin(9600);
+  Serial.begin(SERIAL_BAUD_RATE);
   while (!Serial)
   {
   }
 
-  Serial.print(F("\nStarting ISR_16_Timers_Array_Complex on "));
-  Serial.println(BOARD_TYPE);
-  Serial.println(TIMER_INTERRUPT_VERSION);
-  Serial.println(TIMER_INTERRUPT_GENERIC_VERSION);
-  Serial.print(F("CPU Frequency = "));
-  Serial.print(F_CPU / 1000000);
-  Serial.println(F(" MHz"));
 }
 
 void loop()
