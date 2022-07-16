@@ -26,7 +26,7 @@
 
 // Misc
 #define PRECISION 4
-#define SERIAL_BAUD_RATE 9600
+#define SERIAL_BAUD_RATE 115200
 
 #define ON 1
 #define OFF 0
@@ -34,4 +34,6 @@
 #include <arduino.h>
 #include <assert.h>
 
+#include "timer.h"
 #include "heater.h"
+#include "motor.h"
