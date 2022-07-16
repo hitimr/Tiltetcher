@@ -29,6 +29,8 @@ public:
       if (buffer[i] < MIN_PLAUSIBLE_TEMP || buffer[i] > MAX_PLAUSIBLE_TEMP)
         return false;
     }
+
+    return true;
   }
 
   double get_temperature()
@@ -49,12 +51,13 @@ public:
     double T = 25 + (sqrt(ALPHA * ALPHA - 4. * BETA + 4. * BETA * k_T) - ALPHA) / (2. * BETA);
 
     double tmp;
-    if(buffer.isFull())
+    if (buffer.isFull())
     {
       buffer.pop(tmp);
     }
     buffer.lockedPush(T);
   }
+
 private:
   RingBuf<double, NUM_MEASUREMENTS> buffer;
 };
