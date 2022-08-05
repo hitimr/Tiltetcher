@@ -7,9 +7,9 @@ void setup()
 {
   init_timer();	
   init_heater();
-  
-  pinMode(LED_BUILTIN, OUTPUT);
+  init_motor();
 
+  
   Serial.begin(SERIAL_BAUD_RATE);
   while (!Serial)
   {
@@ -28,4 +28,7 @@ void loop()
   // You need this Software timer for non-critical tasks. Avoid abusing ISR if not absolutely
   // necessary You don't need to and never call ISR_Timer.run() here in the loop(). It's already
   // handled by ISR timer.
+    motor_step();
+    delay(2);
+
 }

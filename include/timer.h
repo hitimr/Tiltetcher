@@ -30,6 +30,7 @@ need to be disabled or the entire sequence of your code which accesses the data.
 
 #include "heater.h"
 #include "thermal_sensor.h"
+#include "motor.h"
 
 #define TIMER_INTERRUPT_DEBUG 0
 #define _TIMERINTERRUPT_LOGLEVEL_ 0
@@ -117,18 +118,20 @@ void doingSomething(int index)
 
 void doingSomething0() { doingSomething(0); }
 
-void doingSomething1() { doingSomething(1); }
+void doingSomething1()
+{
+  doingSomething(1);
+}
 
 void doingSomething2()
 {
   thermal_sensor.read();
-  heater_safety_check();
   doingSomething(2);
 }
 
 void doingSomething3()
 {
-  heater_switch_on_routine();
+  heater_routine();
   doingSomething(3);
 }
 
@@ -225,8 +228,9 @@ void init_timer()
 
 #endif
 
+  ISR_timer.setInterval(1000L, doingSomething1);
   ISR_timer.setInterval(25L, doingSomething2);
-  ISR_timer.setInterval(1000L, doingSomething3);
+  ISR_timer.setInterval(500, doingSomething3);
   // Just to demonstrate, don't use too many ISR Timers if not absolutely necessary
   // You can use up to 16 timer for each ISR_Timer
   for (uint16_t i = 0; i < NUMBER_ISR_TIMERS; i++)

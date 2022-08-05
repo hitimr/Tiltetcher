@@ -13,7 +13,7 @@
 #define R25 (1970.0)      // Sensor impedance at 25°C
 #define V_SOURCE 5.0      // Source Voltage (5V from Arduino)
 #define R1 3000.0         // Resistor for Temperature sensor
-#define MIN_PLAUSIBLE_TEMP (0.0)
+#define MIN_PLAUSIBLE_TEMP (1.0)
 #define MAX_PLAUSIBLE_TEMP (100.0)
 
 class ThermalSensor
