@@ -1,22 +1,33 @@
 #include "project.h"
 #include "timer.h"
 #include "thermal_sensor.h"
-
+#include "lcd.h"
 
 void setup()
 {
-  init_timer();	
+  display.init();
   init_heater();
-  init_motor();
 
+#ifdef STEPPER_MOTOR_ENABLED
+  init_motor();
+#endif
   
+
   Serial.begin(SERIAL_BAUD_RATE);
   while (!Serial)
   {
   }
 
+  while (millis() < WARMUP_TIME_MS)
+  {
+    Serial.println("Warming up...");
+  }
+
+  init_timer();
+
   LOG_PRINT(LOG_LEVEL_INFO, "Init complete");
 }
+
 
 void loop()
 {
@@ -28,7 +39,5 @@ void loop()
   // You need this Software timer for non-critical tasks. Avoid abusing ISR if not absolutely
   // necessary You don't need to and never call ISR_Timer.run() here in the loop(). It's already
   // handled by ISR timer.
-    motor_step();
-    delay(2);
 
 }

@@ -1,7 +1,6 @@
 #pragma once
 #include "GPIO.h"
 #include <RingBuf.h>
-
 // Settings
 #define NUM_MEASUREMENTS (8)
 
@@ -26,7 +25,7 @@ public:
 
     for (int i = 0; i < NUM_MEASUREMENTS; i++)
     {
-      if (buffer[i] < MIN_PLAUSIBLE_TEMP || buffer[i] > MAX_PLAUSIBLE_TEMP)
+      if ((buffer[i] < MIN_PLAUSIBLE_TEMP) || (buffer[i] > MAX_PLAUSIBLE_TEMP))
         return false;
     }
 
@@ -43,6 +42,8 @@ public:
     return sum / NUM_MEASUREMENTS;
   }
 
+  // Read the temperature, convert it to Celsius and store it in the buffer
+  // This function should be called periodically by an interrupt
   void read()
   {
     double V_sens = (double)analogRead(PIN_THERMAL_SENSOR) * V_SOURCE / (double)1023;

@@ -1,7 +1,13 @@
 #pragma once
 
 // Sensor
-#define PIN_THERMAL_SENSOR A1
+#define PIN_THERMAL_SENSOR_5V -1    // Connected to 5V rail
+#define PIN_THERMAL_SENSOR A0
+
+
+#define PIN_LCD_SDA A4
+#define PIN_LCD_SCL A5
+
 
 // Stepper Motor Pins
 #define PIN_MOTOR_1 10 // blue

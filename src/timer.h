@@ -31,6 +31,7 @@ need to be disabled or the entire sequence of your code which accesses the data.
 #include "heater.h"
 #include "thermal_sensor.h"
 #include "motor.h"
+#include "lcd.h"
 
 #define TIMER_INTERRUPT_DEBUG 0
 #define _TIMERINTERRUPT_LOGLEVEL_ 0
@@ -131,7 +132,8 @@ void doingSomething2()
 
 void doingSomething3()
 {
-  heater_routine();
+  heater_routine();  
+  display.update();
   doingSomething(3);
 }
 

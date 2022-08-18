@@ -1,5 +1,10 @@
 #pragma once
 
+// System constants
+#define STEPPER_MOTOR_ENABLED false
+
+#define WARMUP_TIME_MS 1000L
+
 // Misc
 #define PRECISION 4
 
