@@ -16,13 +16,12 @@
 #define PIN_MOTOR_3 12 // yellow
 #define PIN_MOTOR_4 13 // orange
 
-// Heater
-#define PIN_HEATER 3
 
-// LEDs
+// Outputs
 #define PIN_LED_MAIN_PWR 0
 #define PIN_LED_HTR_WRN 1
 #define PIN_LED_HTR_RDY 2
+#define PIN_HEATER 3
 
 // Inputs
 #define PIN_IN_HTR_SW 4

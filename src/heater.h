@@ -73,13 +73,16 @@ class Heater
       if (new_state == ON)
       {
         LOG_PRINT(LOG_LEVEL_DEBUG, "Switching heater ON");
+        digitalWrite(PIN_HEATER, HIGH);
+        digitalWrite(PIN_LED_HTR_WRN, HIGH);
       }
       else
       {
         LOG_PRINT(LOG_LEVEL_DEBUG, "Switching heater OFF");
+        digitalWrite(PIN_HEATER,LOW);
+        digitalWrite(PIN_LED_HTR_WRN, LOW); 
       }
 
-      digitalWrite(PIN_HEATER, new_state);
       m_state = new_state;
       last_state_change_time = millis();
 
