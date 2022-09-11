@@ -119,20 +119,20 @@ void doingSomething(int index)
 
 void doingSomething0() { doingSomething(0); }
 
-void doingSomething1()
+void proc_100ms()
 {
-  doingSomething(1);
+  gpio.update();
 }
 
-void doingSomething2()
+void proc_25ms()
 {
-  thermal_sensor.read();
+  thermal_sensor.update();
   doingSomething(2);
 }
 
-void doingSomething3()
+void proc_500ms()
 {
-  heater_routine();  
+  heater.update();  
   display.update();
   doingSomething(3);
 }
@@ -165,8 +165,8 @@ void doingSomething15() { doingSomething(15); }
 
 ISRTimerData curISRTimerData[NUMBER_ISR_TIMERS] = {
     // irqCallbackFunc, TimerInterval, deltaMillis, previousMillis
-    {doingSomething0, 500L, 0, 0},    {doingSomething1, 10000L, 0, 0},
-    {doingSomething2, 15000L, 0, 0},  {doingSomething3, 20000L, 0, 0},
+    {doingSomething0, 500L, 0, 0},    {proc_100ms, 10000L, 0, 0},
+    {proc_25ms, 15000L, 0, 0},  {proc_500ms, 20000L, 0, 0},
     {doingSomething4, 25000L, 0, 0},  {doingSomething5, 30000L, 0, 0},
     {doingSomething6, 35000L, 0, 0},  {doingSomething7, 40000L, 0, 0},
     {doingSomething8, 45000L, 0, 0},  {doingSomething9, 50000L, 0, 0},
@@ -187,7 +187,7 @@ void doingSomething(int index)
 #else
 
 irqCallback irqCallbackFunc[NUMBER_ISR_TIMERS] = {
-    doingSomething0,  doingSomething1,  doingSomething2,  doingSomething3,
+    doingSomething0,  proc_100ms,  proc_25ms,  proc_500ms,
     doingSomething4,  doingSomething5,  doingSomething6,  doingSomething7,
     doingSomething8,  doingSomething9,  doingSomething10, doingSomething11,
     doingSomething12, doingSomething13, doingSomething14, doingSomething15};
@@ -230,9 +230,9 @@ void init_timer()
 
 #endif
 
-  ISR_timer.setInterval(1000L, doingSomething1);
-  ISR_timer.setInterval(25L, doingSomething2);
-  ISR_timer.setInterval(500, doingSomething3);
+  ISR_timer.setInterval(1000L, proc_100ms);
+  ISR_timer.setInterval(25L, proc_25ms);
+  ISR_timer.setInterval(500, proc_500ms);
   // Just to demonstrate, don't use too many ISR Timers if not absolutely necessary
   // You can use up to 16 timer for each ISR_Timer
   for (uint16_t i = 0; i < NUMBER_ISR_TIMERS; i++)

@@ -66,8 +66,7 @@ public:
   }
 
   void screen_default()
-  {
-     
+  {     
     lcd.clear();
     lcd.print("Temp.    ");
     lcd.print(thermal_sensor.get_temperature());

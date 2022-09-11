@@ -2,11 +2,13 @@
 #include "timer.h"
 #include "thermal_sensor.h"
 #include "lcd.h"
+#include "GPIO.h"
 
 void setup()
 {
+  gpio.init();
   display.init();
-  init_heater();
+  heater.init();
 
 #ifdef STEPPER_MOTOR_ENABLED
   init_motor();
@@ -39,5 +41,7 @@ void loop()
   // You need this Software timer for non-critical tasks. Avoid abusing ISR if not absolutely
   // necessary You don't need to and never call ISR_Timer.run() here in the loop(). It's already
   // handled by ISR timer.
+
+
 
 }

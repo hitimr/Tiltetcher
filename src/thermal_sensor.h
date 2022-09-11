@@ -1,8 +1,11 @@
 #pragma once
 #include "GPIO.h"
 #include <RingBuf.h>
+#include <math.h>
+
 // Settings
 #define NUM_MEASUREMENTS (8)
+#define TEMPERATURE_INVALID (double) -999.0
 
 // Hardware
 // Sensor data sheet:
@@ -18,7 +21,47 @@
 class ThermalSensor
 {
 public:
-  bool is_valid()
+  
+
+  // Read the temperature, convert it to Celsius and store it in the buffer
+  // This function should be called periodically by an interrupt
+  void update()
+  {
+    // perform a measurement and convert to Celsius
+    double V_sens = (double)analogRead(PIN_THERMAL_SENSOR) * V_SOURCE / (double)1023;
+    double R_T = R1 * (V_SOURCE / V_sens - 1);
+    double k_T = R_T / R25;
+    double T = 25 + (sqrt(ALPHA * ALPHA - 4. * BETA + 4. * BETA * k_T) - ALPHA) / (2. * BETA);
+
+    // store the temperature in the buffer
+    double tmp;
+    if (buffer.isFull())
+    {
+      buffer.pop(tmp);
+    }
+    buffer.lockedPush(T);
+
+    m_is_valid = check_validity();
+    if(is_valid())
+    {
+      m_temperature = m_calculate_temperature();
+    }
+    else
+    {
+      m_temperature = TEMPERATURE_INVALID;
+    }
+  }
+
+  bool is_valid() { return m_is_valid; }
+  double get_temperature() { return m_temperature; }
+
+private:
+  RingBuf<double, NUM_MEASUREMENTS> buffer;
+
+  bool m_is_valid = false;
+  double m_temperature = TEMPERATURE_INVALID;
+  
+  bool check_validity()
   {
     if (!buffer.isFull())
       return false;
@@ -31,9 +74,10 @@ public:
 
     return true;
   }
-
-  double get_temperature()
+  
+  double m_calculate_temperature()
   {
+    // calculate average over the last measurements
     double sum = 0.0;
     for (int i = 0; i < NUM_MEASUREMENTS; i++)
     {
@@ -41,26 +85,6 @@ public:
     }
     return sum / NUM_MEASUREMENTS;
   }
-
-  // Read the temperature, convert it to Celsius and store it in the buffer
-  // This function should be called periodically by an interrupt
-  void read()
-  {
-    double V_sens = (double)analogRead(PIN_THERMAL_SENSOR) * V_SOURCE / (double)1023;
-    double R_T = R1 * (V_SOURCE / V_sens - 1);
-    double k_T = R_T / R25;
-    double T = 25 + (sqrt(ALPHA * ALPHA - 4. * BETA + 4. * BETA * k_T) - ALPHA) / (2. * BETA);
-
-    double tmp;
-    if (buffer.isFull())
-    {
-      buffer.pop(tmp);
-    }
-    buffer.lockedPush(T);
-  }
-
-private:
-  RingBuf<double, NUM_MEASUREMENTS> buffer;
 };
 
 ThermalSensor thermal_sensor;
